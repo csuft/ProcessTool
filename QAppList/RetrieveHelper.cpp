@@ -34,7 +34,7 @@ void RetrieveHelper::setProclist()
 	PROCESSENTRY32 pe32;
 	DWORD dwPriorityClass;
 	ProcEntry entry;
-	char buffer[MAX_PATH];
+	TCHAR buffer[MAX_PATH];
 
 	// Take a snapshot of all processes in the system.
 	hProcessSnap = CreateToolhelp32Snapshot( TH32CS_SNAPPROCESS, 0 );
@@ -56,9 +56,7 @@ void RetrieveHelper::setProclist()
 
 	do
 	{
-		wcstombs(buffer, pe32.szExeFile, MAX_PATH);
-		entry.procName = buffer ;
-
+		entry.procName = pe32.szExeFile ;
 		// Retrieve the priority class.
 		dwPriorityClass = 0;
 		hProcess = OpenProcess( PROCESS_ALL_ACCESS, FALSE, pe32.th32ProcessID );
@@ -77,7 +75,6 @@ void RetrieveHelper::setProclist()
 		m_procList.push_back(entry);
 
 	} while( Process32Next( hProcessSnap, &pe32 ) );
-
 }
 
 /*
@@ -116,9 +113,8 @@ void RetrieveHelper::retrieveAppkey(HKEY hKey, LPCTSTR szDesKeyItem, LONG flag)
 	DWORD dwIndex = 0;
 	long lResult;
 	const unsigned int BUFSIZE = 1024;
-	TCHAR tbuffer[BUFSIZE] = {0};
 	TCHAR s_name[256] = {0};				// application name			
-	CHAR buffer[BUFSIZE] = {'\0'};
+	TCHAR buffer[BUFSIZE] = {'\0'};
 	DWORD cbName = BUFSIZE*sizeof(TCHAR);	
 	DWORD typeSZ = REG_SZ;	
 	HKEY hItem;		// next level
@@ -133,68 +129,58 @@ void RetrieveHelper::retrieveAppkey(HKEY hKey, LPCTSTR szDesKeyItem, LONG flag)
 			if(RegOpenKeyEx(hSubKey, s_name, 0, KEY_READ, &hItem) == ERROR_SUCCESS)
 			{
 				// the display name of application
-				lResult = RegQueryValueEx(hItem, TEXT("DisplayName"), 0, &typeSZ, (LPBYTE)tbuffer, &cbName);
+				lResult = RegQueryValueEx(hItem, TEXT("DisplayName"), 0, &typeSZ, (LPBYTE)buffer, &cbName);
 				if (lResult == ERROR_SUCCESS)  // the registry value exist, so we continue
 				{
-					wcstombs(buffer, tbuffer, BUFSIZE);
 					entry.appName = buffer;
 					memset(buffer, 0, BUFSIZE);
-					memset(tbuffer, 0, BUFSIZE);
 					cbName = BUFSIZE*sizeof(TCHAR);
 					// the publisher
-					lResult = RegQueryValueEx(hItem, TEXT("Publisher"), 0, &typeSZ, (LPBYTE)tbuffer, &cbName);
-					if (lResult == ERROR_SUCCESS && tbuffer[0])
+					lResult = RegQueryValueEx(hItem, TEXT("Publisher"), 0, &typeSZ, (LPBYTE)buffer, &cbName);
+					if (lResult == ERROR_SUCCESS && buffer[0])
 					{
-						wcstombs(buffer, tbuffer, BUFSIZE);
 						entry.publisher = buffer;
 						memset(buffer, 0, BUFSIZE);
-						memset(tbuffer, 0, BUFSIZE);
 					}
 					else
 					{
-						entry.publisher = "/";
+						entry.publisher = TEXT("/");
 					}
 					cbName = BUFSIZE*sizeof(TCHAR);
 					// Get the location of installation
-					lResult = RegQueryValueEx(hItem, TEXT("InstallLocation"), 0, &typeSZ, (LPBYTE)tbuffer, &cbName);
-					if (lResult == ERROR_SUCCESS && tbuffer[0])
+					lResult = RegQueryValueEx(hItem, TEXT("InstallLocation"), 0, &typeSZ, (LPBYTE)buffer, &cbName);
+					if (lResult == ERROR_SUCCESS && buffer[0])
 					{
-						wcstombs(buffer, tbuffer, BUFSIZE);
 						entry.location = buffer;
 						memset(buffer, 0, BUFSIZE);
-						memset(tbuffer, 0, BUFSIZE);
 					}
 					else
 					{
-						entry.location = "/";
+						entry.location = TEXT("/");
 					}
 					cbName = BUFSIZE*sizeof(TCHAR);
 					// installation date
-					lResult = RegQueryValueEx(hItem, TEXT("InstallDate"), 0, &typeSZ, (LPBYTE)tbuffer, &cbName);
-					if (lResult == ERROR_SUCCESS && tbuffer[0])
+					lResult = RegQueryValueEx(hItem, TEXT("InstallDate"), 0, &typeSZ, (LPBYTE)buffer, &cbName);
+					if (lResult == ERROR_SUCCESS && buffer[0])
 					{
-						wcstombs(buffer, tbuffer, BUFSIZE);
 						entry.installDate = buffer;
 						memset(buffer, 0, BUFSIZE);
-						memset(tbuffer, 0, BUFSIZE);
 					}
 					else
 					{
-						entry.installDate = "N/A";
+						entry.installDate = TEXT("N/A");
 					}
 					cbName = BUFSIZE*sizeof(TCHAR);
 					// display version of application
-					lResult = RegQueryValueEx(hItem, TEXT("DisplayVersion"), 0, &typeSZ, (LPBYTE)tbuffer, &cbName);
-					if (lResult == ERROR_SUCCESS && tbuffer[0])
+					lResult = RegQueryValueEx(hItem, TEXT("DisplayVersion"), 0, &typeSZ, (LPBYTE)buffer, &cbName);
+					if (lResult == ERROR_SUCCESS && buffer[0])
 					{
-						wcstombs(buffer, tbuffer, BUFSIZE);
 						entry.appVer = buffer;
 						memset(buffer, 0, BUFSIZE);
-						memset(tbuffer, 0, BUFSIZE);
 					}
 					else
 					{
-						entry.appVer = "/";
+						entry.appVer = TEXT("/");
 					}
 					m_appList.push_back(entry);
 				}

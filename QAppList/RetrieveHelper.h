@@ -9,10 +9,11 @@
 
 using std::vector;
 using std::string;
+using std::wstring;
 
 typedef struct _procEntry
 {
-	string procName;
+	wstring procName;
 	unsigned int procId;    // process id
 	unsigned int procPid;   // parent process id
 	unsigned short ctThread; // thread count
@@ -22,11 +23,11 @@ typedef struct _procEntry
 
 typedef struct _appEntry
 {
-	string appName;
-	string appVer;
-	string installDate;
-	string location;
-	string publisher;
+	wstring appName;
+	wstring appVer;
+	wstring installDate;
+	wstring location;
+	wstring publisher;
 }AppEntry, *pAppEntry;
 
 class RetrieveHelper

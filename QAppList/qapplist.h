@@ -6,6 +6,7 @@
 #include <QSortFilterProxyModel>
 #include <QAbstractItemView>
 #include <QWidgetItem>
+#include <QString>
 #include <QRegExp>
 #include <QFileDialog>
 #include <QMessageBox>

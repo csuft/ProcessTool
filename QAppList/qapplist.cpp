@@ -74,7 +74,7 @@ void QAppList::loadProcessList()
 	for (vector<ProcEntry>::const_iterator ci = pec.cbegin(); ci != pec.cend(); ++ci)
 	{
 		m_procmodel->insertRow(0);
-		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 0), (*ci).procName.c_str());
+		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 0), QString::fromStdWString((*ci).procName));
 		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 1), (*ci).procId);
 		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 2), (*ci).ctThread);
 		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 3), (*ci).procPid);
@@ -116,11 +116,11 @@ void QAppList::loadApplist()
 	for (vector<AppEntry>::const_iterator ci = pec.cbegin(); ci != pec.cend(); ++ci)
 	{
 		m_appmodel->insertRow(0);
-		m_appmodel->setData(m_appmodel->index(INSERT_ROW, 0), (*ci).appName.c_str());
-		m_appmodel->setData(m_appmodel->index(INSERT_ROW, 1), (*ci).appVer.c_str());
-		m_appmodel->setData(m_appmodel->index(INSERT_ROW, 2), (*ci).installDate.c_str());
-		m_appmodel->setData(m_appmodel->index(INSERT_ROW, 3), (*ci).location.c_str());
-		m_appmodel->setData(m_appmodel->index(INSERT_ROW, 4), (*ci).publisher.c_str());
+		m_appmodel->setData(m_appmodel->index(INSERT_ROW, 0), QString::fromStdWString((*ci).appName));
+		m_appmodel->setData(m_appmodel->index(INSERT_ROW, 1), QString::fromStdWString((*ci).appVer));
+		m_appmodel->setData(m_appmodel->index(INSERT_ROW, 2), QString::fromStdWString((*ci).installDate));
+		m_appmodel->setData(m_appmodel->index(INSERT_ROW, 3), QString::fromStdWString((*ci).location));
+		m_appmodel->setData(m_appmodel->index(INSERT_ROW, 4), QString::fromStdWString((*ci).publisher));
 	}
 }
 
