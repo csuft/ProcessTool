@@ -207,5 +207,5 @@ void RetrieveHelper::retrieveAppkey(HKEY hKey, LPCTSTR szDesKeyItem, LONG flag)
 		}
 		RegCloseKey(hSubKey);
 	}
-	RegCloseKey(hSubKey);
+	RegCloseKey(hKey);
 }
