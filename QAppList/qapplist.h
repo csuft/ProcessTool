@@ -6,12 +6,20 @@
 #include <QSortFilterProxyModel>
 #include <QAbstractItemView>
 #include <QWidgetItem>
-#include <QString>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QHeaderView>
+#include <QIcon>
 #include <QRegExp>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "ui_qapplist.h"
+
 #include "RetrieveHelper.h"
+#include "custommodel.h"
+#include "applicationview.h"
+#include "processview.h"
 
 #include <vector>
 #include <string>
@@ -43,11 +51,17 @@ private:
 	void loadApplist();
 	void dumpProclist(const QString& path);
 private:
-	Ui::QAppListClass ui;
+	QLineEdit* m_filterexp;
+	QPushButton* m_exportBtn;
+	QPushButton* m_refreshBtn;
+	QHBoxLayout* m_toplayout;
+	QVBoxLayout* m_mainLayout;
 
 	QSortFilterProxyModel* m_proxyModel;
-	QStandardItemModel* m_appmodel;
-	QStandardItemModel* m_procmodel;
+	CustomModel* m_appmodel;
+	CustomModel* m_procmodel;
+	ApplicationView* m_appTableView;
+	ProcessView* m_procssTableView;
 
 	RetrieveHelper* m_helper;
 };

@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="QAppList">
+    <qresource prefix="/">
+        <file alias="logo">images/logo.ico</file>
     </qresource>
 </RCC>

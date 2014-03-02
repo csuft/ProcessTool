@@ -3,16 +3,31 @@
 QAppList::QAppList(QWidget *parent)
 	: QWidget(parent)
 {
-	ui.setupUi(this);
+	m_mainLayout = new QVBoxLayout(this);
+	m_toplayout = new QHBoxLayout(this);
+	m_filterexp = new QLineEdit(this);
+	m_filterexp->setPlaceholderText(QStringLiteral("Filter"));
+	m_refreshBtn = new QPushButton(QStringLiteral("Refresh"), this);
+	m_exportBtn = new QPushButton(QStringLiteral("Export..."), this);
+	m_toplayout->addWidget(m_filterexp);
+	m_toplayout->addWidget(m_refreshBtn);
+	m_toplayout->addWidget(m_exportBtn);
+	m_procssTableView = new ProcessView(this);
+	m_appTableView = new ApplicationView(this);
 
+	m_mainLayout->addLayout(m_toplayout);
+	m_mainLayout->addWidget(m_procssTableView);
+	m_mainLayout->addWidget(m_appTableView);
+
+	setFixedSize(600, 450);
 	m_helper = new RetrieveHelper;
-
+	layout()->setContentsMargins(1, 2, 1, 2);
 	initProcList();
 	initAppList();
 	
-	connect(ui.RefreshBtn, SIGNAL(clicked()), this, SLOT(onRefreshBtnClicked()));
-	connect(ui.exportBtn, SIGNAL(clicked()), this, SLOT(onExportBtnClicked()));
-	connect(ui.filterexp, SIGNAL(textChanged(const QString&)), this, SLOT(onFilterChanged(const QString&)));
+	connect(m_refreshBtn, SIGNAL(clicked()), this, SLOT(onRefreshBtnClicked()));
+	connect(m_exportBtn, SIGNAL(clicked()), this, SLOT(onExportBtnClicked()));
+	connect(m_filterexp, SIGNAL(textChanged(const QString&)), this, SLOT(onFilterChanged(const QString&)));
 }
 
 QAppList::~QAppList()
@@ -39,19 +54,25 @@ void QAppList::onFilterChanged(const QString& exp)
 
 void QAppList::initProcList()
 {
-	ui.procssTableView->verticalHeader()->hide();
-	ui.procssTableView->horizontalHeader()->setStretchLastSection(true);
-	ui.procssTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-	ui.procssTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-	ui.procssTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	ui.procssTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-	ui.procssTableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-	ui.procssTableView->horizontalHeader()->setStretchLastSection(true);
-
-	m_procmodel = new QStandardItemModel(0, 6, this);
+	m_procssTableView->verticalHeader()->hide();
+	QFont f = m_procssTableView->font();
+	f.setBold(true);
+	m_procssTableView->horizontalHeader()->setFont(f);
+	m_procssTableView->horizontalHeader()->setSectionsClickable(false);
+	m_procssTableView->horizontalHeader()->setStretchLastSection(true);
+	m_procssTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+	m_procssTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+	m_procssTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	m_procssTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+	m_procssTableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+	m_procssTableView->setShowGrid(false);  // disable the table grid.
+	m_procssTableView->verticalHeader()->setDefaultSectionSize(25);  // set row height.
+	m_procssTableView->horizontalHeader()->setHighlightSections(false);
+	m_procssTableView->setFrameShape(QFrame::NoFrame);
+	m_procmodel = new CustomModel(0, 6, this);
 	m_proxyModel = new QSortFilterProxyModel(this);
 	m_proxyModel->setSourceModel(m_procmodel);
-	ui.procssTableView->setModel(m_proxyModel);
+	m_procssTableView->setModel(m_proxyModel);
 	createProcHeader();
 	loadProcessList();
 }
@@ -85,17 +106,23 @@ void QAppList::loadProcessList()
 
 void QAppList::initAppList()
 {
-	ui.appTableView->verticalHeader()->hide();
-	ui.appTableView->horizontalHeader()->setStretchLastSection(true);
-	ui.appTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-	ui.appTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-	ui.appTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	ui.appTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-	ui.appTableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-	ui.appTableView->horizontalHeader()->setStretchLastSection(true);
+	m_appTableView->verticalHeader()->hide();
+	QFont f = m_appTableView->font();
+	f.setBold(true);
+	m_appTableView->horizontalHeader()->setFont(f);
+	m_appTableView->horizontalHeader()->setStretchLastSection(true);
+	m_appTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+	m_appTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+	m_appTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	m_appTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+	m_appTableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+	m_appTableView->setShowGrid(false);
+	m_appTableView->horizontalHeader()->setHighlightSections(false);
+	m_appTableView->verticalHeader()->setDefaultSectionSize(25);
+	m_appTableView->setFrameShape(QFrame::NoFrame);
 
-	m_appmodel = new QStandardItemModel(0, 5, this);
-	ui.appTableView->setModel(m_appmodel);
+	m_appmodel = new CustomModel(0, 5, this);
+	m_appTableView->setModel(m_appmodel);
 	createAppListHeader();
 	loadApplist();
 }
