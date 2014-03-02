@@ -40,6 +40,7 @@ void ShadowEffectWidget::mouseMoveEvent(QMouseEvent *event)
 {
 	if (isPressed)
 	{
+		// the mouse position relate to screen
 		QPoint point = event->globalPos();
 		move(point-movePoint);
 	}
@@ -52,6 +53,8 @@ void ShadowEffectWidget::mousePressEvent(QMouseEvent *event)
 	{
 		isPressed = true;
 	}
+	// the mouse position relate to the current widget
+	// you can use event->pos() to replace it.
 	movePoint = event->globalPos()-pos();
 }
 

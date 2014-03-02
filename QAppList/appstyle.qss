@@ -1,0 +1,103 @@
+QHeaderView::section {
+	background-color: green;
+	color: white;
+	padding-left: 4px;
+	border: none;
+	min-height: 25px;
+}
+
+QTableView {
+	selection-background-color: rgb(220,230,220);
+}
+
+QPushButton#refreshBtn, QPushButton#exportBtn {
+	border-radius: 2px;
+	border: 1px solid rgb(89, 153, 48);
+	background:transparent;
+	color: green;
+}
+
+QPushButton#refreshBtn:hover {
+	background: #86BA10;
+}
+
+QPushButton#exportBtn:hover {
+	background: #86BA10;
+}
+
+
+QMenu{
+    background:white;
+	border:1px solid lightgray;
+}
+
+QMenu::item{
+	padding:0px 20px 0px 20px;
+	height:25px;
+}
+
+QMenu::item:selected:enabled{
+    background: #86BA10;
+	color:white;
+}
+
+QMenu::separator{
+    height:1px;
+    background: lightgray;
+	margin:2px 0px 2px 0px;
+}
+
+QMenu::item:selected:!enabled{
+    background:transparent;
+}
+
+QLineEdit {
+    border: 1px solid green;
+    border-radius: 2px;
+    padding: 0 5px;
+    background: white;
+    selection-background-color: blue;
+}
+
+QScrollBar:horizontal {
+	border: 1px solid white;
+	background: transparent;
+	height: 10px;
+	margin: 0px 0px 0px 0px;
+}
+
+QScrollBar::handle:horizontal{
+	background: #609C30;
+	border-radius: 8px;
+	min-width: 20px;
+}
+
+QScrollBar::add-line:horizontal {
+	background: transparent;
+}
+
+QScrollBar::sub-line:horizontal {
+	background: transparent;
+}
+
+QScrollBar:vertical {
+	border: 1px solid white;
+	background: transparent;
+	width: 10px;
+	margin: 0px 0px 0px 0px;
+}
+
+QScrollBar::handle:vertical{
+	background: #609C30;
+	border-radius: 8px;
+	min-height: 20px;
+}
+
+QScrollBar::add-line:vertical {
+	background: transparent;
+}
+
+QScrollBar::sub-line:vertical {
+	background: transparent;
+}
+

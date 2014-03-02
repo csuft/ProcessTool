@@ -10,14 +10,19 @@ QAppList::QAppList(QWidget *parent)
 	m_filterexp->setContentsMargins(5, 0, 3, 1);
 	m_refreshBtn = new QPushButton(QStringLiteral("Refresh"), this);
 	m_exportBtn = new QPushButton(QStringLiteral("Export..."), this);
+	m_refreshBtn->setObjectName("refreshBtn");
+	m_exportBtn->setObjectName("exportBtn");
+	m_refreshBtn->setFixedSize(75, 25);
+	m_exportBtn->setFixedSize(75, 25);
+	m_filterexp->setFixedHeight(25);
 
 	m_toplayout->addWidget(m_filterexp);
 	m_toplayout->addWidget(m_refreshBtn);
 	m_toplayout->addWidget(m_exportBtn);
+	m_toplayout->setContentsMargins(5, 0, 5, 0);
 
 	m_titleWidget = new TitleBar(this);
 	m_procssTableView = new ProcessView(this);
-	m_procssTableView->setContentsMargins(2, 1, 2, 1);
 	m_appTableView = new ApplicationView(this);
 
 	m_mainLayout->addWidget(m_titleWidget, 0, Qt::AlignTop);

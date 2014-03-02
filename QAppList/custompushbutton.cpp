@@ -49,8 +49,8 @@ void CustomPushButton::mouseReleaseEvent(QMouseEvent *event)
 	{
 		isPressed = false;
 		update();
+		emit clicked();
 	}
-	emit clicked();
 }
 
 void CustomPushButton::enterEvent(QEvent* event)
