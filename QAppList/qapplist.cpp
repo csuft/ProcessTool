@@ -1,30 +1,39 @@
 #include "qapplist.h"
 
 QAppList::QAppList(QWidget *parent)
-	: QWidget(parent)
+	: ShadowEffectWidget(parent)
 {
 	m_mainLayout = new QVBoxLayout(this);
 	m_toplayout = new QHBoxLayout(this);
 	m_filterexp = new QLineEdit(this);
-	m_filterexp->setPlaceholderText(QStringLiteral("Filter"));
+	m_filterexp->setPlaceholderText(QStringLiteral("Filter expression"));
+	m_filterexp->setContentsMargins(5, 0, 3, 1);
 	m_refreshBtn = new QPushButton(QStringLiteral("Refresh"), this);
 	m_exportBtn = new QPushButton(QStringLiteral("Export..."), this);
+
 	m_toplayout->addWidget(m_filterexp);
 	m_toplayout->addWidget(m_refreshBtn);
 	m_toplayout->addWidget(m_exportBtn);
+
+	m_titleWidget = new TitleBar(this);
 	m_procssTableView = new ProcessView(this);
+	m_procssTableView->setContentsMargins(2, 1, 2, 1);
 	m_appTableView = new ApplicationView(this);
 
+	m_mainLayout->addWidget(m_titleWidget, 0, Qt::AlignTop);
 	m_mainLayout->addLayout(m_toplayout);
 	m_mainLayout->addWidget(m_procssTableView);
 	m_mainLayout->addWidget(m_appTableView);
 
+	setLayout(m_mainLayout);
 	setFixedSize(600, 450);
 	m_helper = new RetrieveHelper;
-	layout()->setContentsMargins(1, 2, 1, 2);
+	
 	initProcList();
 	initAppList();
 	
+	connect(m_titleWidget, SIGNAL(customShowMinWindow()), this, SLOT(showMinimized()));
+	connect(m_titleWidget, SIGNAL(customCloseWindow()), this, SLOT(close()));
 	connect(m_refreshBtn, SIGNAL(clicked()), this, SLOT(onRefreshBtnClicked()));
 	connect(m_exportBtn, SIGNAL(clicked()), this, SLOT(onExportBtnClicked()));
 	connect(m_filterexp, SIGNAL(textChanged(const QString&)), this, SLOT(onFilterChanged(const QString&)));
@@ -84,9 +93,8 @@ void QAppList::createProcHeader()
 	m_procmodel->setHeaderData(1, Qt::Horizontal, QStringLiteral("PID"));
 	m_procmodel->setHeaderData(2, Qt::Horizontal, QStringLiteral("Thread Count"));
 	m_procmodel->setHeaderData(3, Qt::Horizontal, QStringLiteral("PPID"));
-	m_procmodel->setHeaderData(4, Qt::Horizontal, QStringLiteral("Priority Base"));
-	m_procmodel->setHeaderData(5, Qt::Horizontal, QStringLiteral("Priority Class"));
-
+	m_procmodel->setHeaderData(4, Qt::Horizontal, QStringLiteral("Prior Base"));
+	m_procmodel->setHeaderData(5, Qt::Horizontal, QStringLiteral("Prior Class"));
 }
 
 void QAppList::loadProcessList()

@@ -16,18 +16,20 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include "shadoweffectwidget.h"
 #include "RetrieveHelper.h"
 #include "custommodel.h"
 #include "applicationview.h"
 #include "processview.h"
 #include "nofocusframedelegate.h"
+#include "titlebar.h"
 
 #include <vector>
 #include <string>
 
 using std::vector;
 
-class QAppList : public QWidget
+class QAppList : public ShadowEffectWidget
 {
 	Q_OBJECT
 
@@ -57,6 +59,7 @@ private:
 	QPushButton* m_refreshBtn;
 	QHBoxLayout* m_toplayout;
 	QVBoxLayout* m_mainLayout;
+	TitleBar* m_titleWidget;
 
 	QSortFilterProxyModel* m_proxyModel;
 	CustomModel* m_appmodel;
