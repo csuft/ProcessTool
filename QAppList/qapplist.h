@@ -20,6 +20,7 @@
 #include "custommodel.h"
 #include "applicationview.h"
 #include "processview.h"
+#include "nofocusframedelegate.h"
 
 #include <vector>
 #include <string>

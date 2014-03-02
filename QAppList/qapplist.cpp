@@ -69,6 +69,7 @@ void QAppList::initProcList()
 	m_procssTableView->verticalHeader()->setDefaultSectionSize(25);  // set row height.
 	m_procssTableView->horizontalHeader()->setHighlightSections(false);
 	m_procssTableView->setFrameShape(QFrame::NoFrame);
+	m_procssTableView->setItemDelegate(new NoFocusFrameDelegate());
 	m_procmodel = new CustomModel(0, 6, this);
 	m_proxyModel = new QSortFilterProxyModel(this);
 	m_proxyModel->setSourceModel(m_procmodel);
@@ -120,6 +121,7 @@ void QAppList::initAppList()
 	m_appTableView->horizontalHeader()->setHighlightSections(false);
 	m_appTableView->verticalHeader()->setDefaultSectionSize(25);
 	m_appTableView->setFrameShape(QFrame::NoFrame);
+	m_appTableView->setItemDelegate(new NoFocusFrameDelegate());
 
 	m_appmodel = new CustomModel(0, 5, this);
 	m_appTableView->setModel(m_appmodel);

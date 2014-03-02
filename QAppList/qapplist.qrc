@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file alias="logo">images/logo.ico</file>
+        <file alias="uistyle">appstyle.qss</file>
     </qresource>
 </RCC>
