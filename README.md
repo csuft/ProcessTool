@@ -32,8 +32,10 @@ Implementation
 For more information, please visit: http://www.cnblogs.com/csuftzzk.
 Screen Shots
 ============
-**Default system theme on Windows 7:** 
-![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/2014-03-01_063319.png "")  
+**Default system theme on Windows 7:**     
+![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/2014-03-01_063319.png "")
+      
+
 **Custom theme:** 
 ![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/2014-03-02_031320.png "")
 ![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/2014-03-02_031912.png "")
