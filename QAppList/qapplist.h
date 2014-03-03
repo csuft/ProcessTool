@@ -15,6 +15,8 @@
 #include <QRegExp>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QFileIconProvider>
+#include <QPixmap>
 
 #include "shadoweffectwidget.h"
 #include "RetrieveHelper.h"

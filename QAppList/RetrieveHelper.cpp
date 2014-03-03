@@ -59,11 +59,10 @@ void RetrieveHelper::setProclist()
 		entry.procName = pe32.szExeFile ;
 		// Retrieve the priority class.
 		dwPriorityClass = 0;
-		hProcess = OpenProcess( PROCESS_ALL_ACCESS, FALSE, pe32.th32ProcessID );
+		hProcess = OpenProcess( PROCESS_VM_READ | PROCESS_QUERY_INFORMATION, FALSE, pe32.th32ProcessID );
 		if(hProcess)
 		{
 			dwPriorityClass = GetPriorityClass(hProcess);
-			CloseHandle( hProcess );
 		}
 
 		entry.procId =  pe32.th32ProcessID;
@@ -71,10 +70,26 @@ void RetrieveHelper::setProclist()
 		entry.procPid = pe32.th32ParentProcessID;
 		entry.priorBase = pe32.pcPriClassBase;
 		if( dwPriorityClass )
-			entry.priorClass = dwPriorityClass;
+			entry.priorClass = dwPriorityClass; 
+		if (hProcess)
+		{
+			DWORD size = GetModuleFileNameEx(hProcess, NULL, buffer, MAX_PATH);
+			if (!size)
+			{
+				// for compatible with windows 7 64bits.
+				if (GetProcessImageFileName(hProcess, buffer, MAX_PATH))
+				{
+					NormalizeNTPath(buffer, MAX_PATH);
+				}
+			}
+			CloseHandle(hProcess);
+		}
+		entry.exePath = buffer;
 		m_procList.push_back(entry);
 
 	} while( Process32Next( hProcessSnap, &pe32 ) );
+
+	CloseHandle(hProcessSnap);
 }
 
 /*
@@ -194,4 +209,39 @@ void RetrieveHelper::retrieveAppkey(HKEY hKey, LPCTSTR szDesKeyItem, LONG flag)
 		RegCloseKey(hSubKey);
 	}
 	RegCloseKey(hKey);
+}
+
+const vector<ModuleEntry> RetrieveHelper::getFullModules(unsigned int pid)
+{
+	return vector<ModuleEntry>() ;
+
+}
+
+// Normalizes the path returned by GetProcessImageFileName
+bool RetrieveHelper::NormalizeNTPath(wchar_t* pszPath, size_t nMax)
+{
+	wchar_t* pszSlash = wcschr(&pszPath[1], '\\');
+	if (pszSlash) pszSlash = wcschr(pszSlash+1, '\\');
+	if (!pszSlash)
+		return false;
+	wchar_t suffix[MAX_PATH];
+	wcscpy_s(suffix, MAX_PATH, pszSlash);
+	*pszSlash = 0;
+
+	wchar_t szNTPath[MAX_PATH];
+	wchar_t szDrive[MAX_PATH] = TEXT("A:");
+	// We'll need to query the NT device names for the drives to find a match with pszPath
+	for (wchar_t cDrive = 'A'; cDrive < 'Z'; ++cDrive)
+	{
+		szDrive[0] = cDrive;
+		szNTPath[0] = 0;
+		if (0 != QueryDosDevice(szDrive, szNTPath, MAX_PATH) && 0 == _wcsicmp(szNTPath, pszPath))
+		{
+			// Match
+			wcscat_s(szDrive, MAX_PATH, suffix);
+			wcscpy_s(pszPath, nMax, szDrive);
+			return true;
+		}
+	}
+	return false;
 }

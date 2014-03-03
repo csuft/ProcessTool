@@ -84,7 +84,7 @@ void QAppList::initProcList()
 	m_procssTableView->horizontalHeader()->setHighlightSections(false);
 	m_procssTableView->setFrameShape(QFrame::NoFrame);
 	m_procssTableView->setItemDelegate(new NoFocusFrameDelegate());
-	m_procmodel = new CustomModel(0, 6, this);
+	m_procmodel = new CustomModel(0, 7, this);
 	m_proxyModel = new QSortFilterProxyModel(this);
 	m_proxyModel->setSourceModel(m_procmodel);
 	m_procssTableView->setModel(m_proxyModel);
@@ -100,21 +100,26 @@ void QAppList::createProcHeader()
 	m_procmodel->setHeaderData(3, Qt::Horizontal, QStringLiteral("PPID"));
 	m_procmodel->setHeaderData(4, Qt::Horizontal, QStringLiteral("Prior Base"));
 	m_procmodel->setHeaderData(5, Qt::Horizontal, QStringLiteral("Prior Class"));
+	m_procmodel->setHeaderData(6, Qt::Horizontal, QStringLiteral("Path"));
 }
 
 void QAppList::loadProcessList()
 {
-	m_procmodel->removeRows(0, m_procmodel->rowCount());
+	m_procmodel->removeRows(INSERT_ROW, m_procmodel->rowCount());
 	const vector<ProcEntry> pec = m_helper->getProclist();
+	QFileIconProvider fip;
 	for (vector<ProcEntry>::const_iterator ci = pec.cbegin(); ci != pec.cend(); ++ci)
 	{
-		m_procmodel->insertRow(0);
+		m_procmodel->insertRow(INSERT_ROW);
 		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 0), QString::fromStdWString((*ci).procName));
 		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 1), (*ci).procId);
 		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 2), (*ci).ctThread);
 		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 3), (*ci).procPid);
 		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 4), (*ci).priorBase);
 		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 5), (*ci).priorClass);
+		m_procmodel->setData(m_procmodel->index(INSERT_ROW, 6), QString::fromStdWString((*ci).exePath));
+		QFileInfo file(QString::fromStdWString((*ci).exePath));
+		m_procmodel->item(INSERT_ROW, 0)->setIcon(fip.icon(file));
 	}
 }
 
