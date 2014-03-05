@@ -34,13 +34,13 @@ Screen Shots
 ============
 **Default system theme on Windows 7:**
      
-![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/2014-03-01_063319.png "")
+![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/20140301162210.jpg "")
       
 **Custom theme on Window 7:**    
  
-![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/2014-03-02_031320.png "")
+![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/20140305141416.jpg "")
+![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/20140305141542.jpg "")
 ![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/2014-03-02_031912.png "")
-![MethodOne.jpg](https://github.com/csuft/ProcessTool/raw/master/screenshots/2014-03-02_031949.png "")
 * * *
 
 To Do List
@@ -48,7 +48,6 @@ To Do List
 * Run on system boot
 * Export tables to Microsoft Excels
 * System Tray Support(Maybe)
-* Retrieve application icons.
 
 Copyright
 =========
