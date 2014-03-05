@@ -40,8 +40,8 @@ typedef struct _moduleEntry
 {
 	DWORD glblcntUsage;
 	DWORD proccntUsage;
-	BYTE* modBaseAddr;
 	DWORD modBaseSize;
+	DWORD modPid;
 	wstring modName;
 	wstring exePath;
 }ModuleEntry, *pModuleEntry;
@@ -54,7 +54,7 @@ public:
 
 	const vector<AppEntry>& getApplist() const { return m_appList; }
 	const vector<ProcEntry>& getProclist() const { return m_procList; }
-	const vector<ModuleEntry> getFullModules(unsigned int pid); 
+	static const vector<ModuleEntry> getFullModules(DWORD pid); 
 private:
 	RetrieveHelper& operator=(const RetrieveHelper& obj);
 	RetrieveHelper(const RetrieveHelper& obj);

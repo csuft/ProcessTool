@@ -5,7 +5,11 @@
 #include <QContextMenuEvent>
 #include <QAction>
 #include <QMenu>
+#include <QModelIndex>
+#include <QMessageBox>
 #include <QTableWidgetItem>
+
+#include "modulestableview.h"
 
 class ProcessView : public QTableView
 {
@@ -17,6 +21,12 @@ public:
 
 protected:
 	void contextMenuEvent(QContextMenuEvent* e);
+
+private slots:
+	void onRefreshActionTriggered();
+	void onThreadsActionTriggered();
+	void onModulesActionTriggered();
+	void onLocationActionTriggered();
 
 private:
 	ProcessView& operator=(const ProcessView& obj);

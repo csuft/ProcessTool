@@ -211,9 +211,37 @@ void RetrieveHelper::retrieveAppkey(HKEY hKey, LPCTSTR szDesKeyItem, LONG flag)
 	RegCloseKey(hKey);
 }
 
-const vector<ModuleEntry> RetrieveHelper::getFullModules(unsigned int pid)
+const vector<ModuleEntry> RetrieveHelper::getFullModules(DWORD pid)
 {
-	return vector<ModuleEntry>() ;
+	ModuleEntry entry;
+	vector<ModuleEntry> entryList;
+	HANDLE hModuleSnap = INVALID_HANDLE_VALUE; 
+	MODULEENTRY32 me32; 
+	hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid); 
+	if( hModuleSnap == INVALID_HANDLE_VALUE ) 
+	{ 
+		return vector<ModuleEntry>(); 
+	} 
+	me32.dwSize = sizeof(MODULEENTRY32);
+	if( !Module32First( hModuleSnap, &me32 ) ) 
+	{ 
+		CloseHandle( hModuleSnap );     // Must clean up the snapshot object! 
+		return vector<ModuleEntry>(); 
+	} 
+
+	do 
+	{ 
+		entry.modName =  me32.szModule; 
+		entry.exePath = me32.szExePath; 
+		entry.modPid = me32.th32ProcessID; 
+		entry.glblcntUsage = me32.GlblcntUsage; 
+		entry.proccntUsage = me32.ProccntUsage; 
+		entry.modBaseSize = me32.modBaseSize; 
+
+		entryList.push_back(entry);
+	} while( Module32Next( hModuleSnap, &me32 ) ); 
+
+	return entryList ;
 
 }
 

@@ -10,19 +10,23 @@ QTableView {
 	selection-background-color: rgb(220,230,220);
 }
 
-QPushButton#refreshBtn, QPushButton#exportBtn {
+QPushButton#refreshBtn, QPushButton#exportBtn, QPushButton#OkBtn {
 	border-radius: 2px;
 	border: 1px solid rgb(89, 153, 48);
 	background:transparent;
 	color: green;
 }
 
-QPushButton#refreshBtn:hover {
+QPushButton#refreshBtn:hover, QPushButton#exportBtn:hover, QPushButton#OkBtn:hover {
 	background: #86BA10;
 }
 
-QPushButton#exportBtn:hover {
-	background: #86BA10;
+QLabel#CountLabel {
+	color: green;
+}
+
+QLabel#Title {
+	color: white;
 }
 
 

@@ -2,7 +2,8 @@
 
 QVariant CustomModel::data(const QModelIndex& index, int role) const
 {
-	if (role == Qt::TextAlignmentRole)
+	// align all cells center except the first column
+	if (role == Qt::TextAlignmentRole && index.column() != 0)
 	{
 		return Qt::AlignCenter;
 	}

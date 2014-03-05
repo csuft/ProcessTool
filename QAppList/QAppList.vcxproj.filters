@@ -116,6 +116,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_titlebar.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="modulestableview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_modulestableview.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_modulestableview.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="qapplist.h">
@@ -143,6 +152,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="titlebar.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="modulestableview.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

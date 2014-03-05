@@ -44,7 +44,6 @@ void ShadowEffectWidget::mouseMoveEvent(QMouseEvent *event)
 		QPoint point = event->globalPos();
 		move(point-movePoint);
 	}
-
 }
 
 void ShadowEffectWidget::mousePressEvent(QMouseEvent *event)

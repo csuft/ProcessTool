@@ -31,7 +31,7 @@ QAppList::QAppList(QWidget *parent)
 	m_mainLayout->addWidget(m_appTableView);
 
 	setLayout(m_mainLayout);
-	setFixedSize(600, 450);
+	setFixedSize(700, 500);
 	m_helper = new RetrieveHelper;
 	
 	initProcList();
@@ -68,7 +68,21 @@ void QAppList::onFilterChanged(const QString& exp)
 
 void QAppList::initProcList()
 {
+	//////////////////////////////////////////////////////////////////////////
+	// This code section should be placed at the first. Otherwise the setColumnWidth()
+	// will not work.
+	m_procmodel = new CustomModel(0, 7, this);
+	m_proxyModel = new QSortFilterProxyModel(this);
+	m_proxyModel->setSourceModel(m_procmodel);
+	m_procssTableView->setModel(m_proxyModel);
+	//////////////////////////////////////////////////////////////////////////
 	m_procssTableView->verticalHeader()->hide();
+	m_procssTableView->horizontalHeader()->setDefaultSectionSize(90);
+	m_procssTableView->setColumnWidth(0, 100);
+	m_procssTableView->setColumnWidth(1, 45);
+	m_procssTableView->setColumnWidth(2, 80);
+	m_procssTableView->setColumnWidth(3, 45);
+	m_procssTableView->setColumnWidth(4, 70);
 	QFont f = m_procssTableView->font();
 	f.setBold(true);
 	m_procssTableView->horizontalHeader()->setFont(f);
@@ -84,10 +98,7 @@ void QAppList::initProcList()
 	m_procssTableView->horizontalHeader()->setHighlightSections(false);
 	m_procssTableView->setFrameShape(QFrame::NoFrame);
 	m_procssTableView->setItemDelegate(new NoFocusFrameDelegate());
-	m_procmodel = new CustomModel(0, 7, this);
-	m_proxyModel = new QSortFilterProxyModel(this);
-	m_proxyModel->setSourceModel(m_procmodel);
-	m_procssTableView->setModel(m_proxyModel);
+
 	createProcHeader();
 	loadProcessList();
 }
@@ -125,6 +136,13 @@ void QAppList::loadProcessList()
 
 void QAppList::initAppList()
 {
+	// This statement should be first, otherwise setColumnWidth() will not work
+	m_appmodel = new CustomModel(0, 5, this);  
+	m_appTableView->setModel(m_appmodel);
+	m_appTableView->horizontalHeader()->setDefaultSectionSize(150);
+	m_appTableView->setColumnWidth(0, 200);
+	m_appTableView->setColumnWidth(1, 75);
+	m_appTableView->setColumnWidth(2, 75);
 	m_appTableView->verticalHeader()->hide();
 	QFont f = m_appTableView->font();
 	f.setBold(true);
@@ -141,8 +159,7 @@ void QAppList::initAppList()
 	m_appTableView->setFrameShape(QFrame::NoFrame);
 	m_appTableView->setItemDelegate(new NoFocusFrameDelegate());
 
-	m_appmodel = new CustomModel(0, 5, this);
-	m_appTableView->setModel(m_appmodel);
+
 	createAppListHeader();
 	loadApplist();
 }
